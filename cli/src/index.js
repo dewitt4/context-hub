@@ -23,12 +23,12 @@ ${chalk.bold.underline('Getting Started')}
   ${chalk.dim('$')} chub update                                ${chalk.dim('# download the registry')}
   ${chalk.dim('$')} chub search                                ${chalk.dim('# list everything available')}
   ${chalk.dim('$')} chub search "stripe"                       ${chalk.dim('# fuzzy search')}
-  ${chalk.dim('$')} chub search stripe-payments                ${chalk.dim('# exact id → full detail')}
-  ${chalk.dim('$')} chub get docs stripe-payments              ${chalk.dim('# print doc to terminal')}
-  ${chalk.dim('$')} chub get docs stripe-payments -o doc.md    ${chalk.dim('# save to file')}
-  ${chalk.dim('$')} chub get docs stripe-payments --lang py    ${chalk.dim('# specific language')}
-  ${chalk.dim('$')} chub get skills playwright-login           ${chalk.dim('# fetch a skill')}
-  ${chalk.dim('$')} chub get docs openai-chat stripe-payments  ${chalk.dim('# fetch multiple')}
+  ${chalk.dim('$')} chub search stripe/payments                ${chalk.dim('# exact id → full detail')}
+  ${chalk.dim('$')} chub get docs stripe/payments              ${chalk.dim('# print doc to terminal')}
+  ${chalk.dim('$')} chub get docs stripe/payments -o doc.md    ${chalk.dim('# save to file')}
+  ${chalk.dim('$')} chub get docs stripe/payments --lang py    ${chalk.dim('# specific language')}
+  ${chalk.dim('$')} chub get skills pw/login-flows             ${chalk.dim('# fetch a skill')}
+  ${chalk.dim('$')} chub get docs openai/chat stripe/payments  ${chalk.dim('# fetch multiple')}
 
 ${chalk.bold.underline('Commands')}
 
@@ -57,7 +57,7 @@ ${chalk.bold.underline('Agent Piping Patterns')}
   ${chalk.dim('$')} chub get docs "$ID" --lang js -o .context/stripe.md
 
   ${chalk.dim('# Fetch multiple docs at once')}
-  ${chalk.dim('$')} chub get docs openai-chat stripe-payments -o .context/
+  ${chalk.dim('$')} chub get docs openai/chat stripe/payments -o .context/
 
 ${chalk.bold.underline('Multi-Source Config')} ${chalk.dim('(~/.chub/config.yaml)')}
 
@@ -67,7 +67,7 @@ ${chalk.bold.underline('Multi-Source Config')} ${chalk.dim('(~/.chub/config.yaml
   ${chalk.dim('  - name: internal')}
   ${chalk.dim('    path: /path/to/local/docs')}
 
-  ${chalk.dim('# On id collision, use namespace: chub get docs internal/my-api')}
+  ${chalk.dim('# On id collision, use source: prefix: chub get docs internal:openai/chat')}
 `);
 }
 

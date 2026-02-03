@@ -96,6 +96,7 @@ function discoverAuthor(authorDir, authorName, contentDir) {
         continue;
       }
       skills.set(name, {
+        id: `${authorName}/${name}`,
         name,
         description,
         source,
@@ -160,6 +161,7 @@ function discoverAuthor(authorDir, authorName, contentDir) {
       });
     }
     docsArray.push({
+      id: `${authorName}/${name}`,
       name,
       description: doc.description,
       source: doc.source,
@@ -212,6 +214,8 @@ export function registerBuildCommand(program) {
             // Prefix paths with author dir name
             if (reg.docs) {
               for (const doc of reg.docs) {
+                if (!doc.id) doc.id = `${authorEntry.name}/${doc.name}`;
+                else if (!doc.id.includes('/')) doc.id = `${authorEntry.name}/${doc.id}`;
                 for (const lang of doc.languages || []) {
                   for (const ver of lang.versions || []) {
                     ver.path = `${authorEntry.name}/${ver.path}`;
@@ -222,6 +226,8 @@ export function registerBuildCommand(program) {
             }
             if (reg.skills) {
               for (const skill of reg.skills) {
+                if (!skill.id) skill.id = `${authorEntry.name}/${skill.name}`;
+                else if (!skill.id.includes('/')) skill.id = `${authorEntry.name}/${skill.id}`;
                 skill.path = `${authorEntry.name}/${skill.path}`;
                 allSkills.push(skill);
               }
@@ -240,20 +246,20 @@ export function registerBuildCommand(program) {
         }
       }
 
-      // Check for id collisions
-      const docNames = new Map();
+      // Check for id collisions (should be rare since ids are author/name)
+      const docIds = new Map();
       for (const doc of allDocs) {
-        if (docNames.has(doc.name)) {
-          allErrors.push(`Duplicate doc name '${doc.name}' from different authors`);
+        if (docIds.has(doc.id)) {
+          allErrors.push(`Duplicate doc id '${doc.id}'`);
         }
-        docNames.set(doc.name, true);
+        docIds.set(doc.id, true);
       }
-      const skillNames = new Map();
+      const skillIds = new Map();
       for (const skill of allSkills) {
-        if (skillNames.has(skill.name)) {
-          allErrors.push(`Duplicate skill name '${skill.name}' from different authors`);
+        if (skillIds.has(skill.id)) {
+          allErrors.push(`Duplicate skill id '${skill.id}'`);
         }
-        skillNames.set(skill.name, true);
+        skillIds.set(skill.id, true);
       }
 
       // Print warnings

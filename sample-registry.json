@@ -4,7 +4,8 @@
   "generated": "2026-02-01T00:00:00.000Z",
   "docs": [
     {
-      "name": "openai-chat",
+      "id": "openai/chat",
+      "name": "chat",
       "description": "Chat completions with GPT models including streaming, function calling, and vision",
       "source": "maintainer",
       "tags": ["openai", "chat", "llm", "ai"],
@@ -38,7 +39,8 @@
       ]
     },
     {
-      "name": "stripe-payments",
+      "id": "stripe/payments",
+      "name": "payments",
       "description": "Payment processing with Stripe including payment intents, subscriptions, and webhooks",
       "source": "maintainer",
       "tags": ["stripe", "payments", "billing"],
@@ -61,7 +63,8 @@
   ],
   "skills": [
     {
-      "name": "playwright-login-flows",
+      "id": "playwright-community/login-flows",
+      "name": "login-flows",
       "description": "Common login automation patterns for web apps using Playwright",
       "source": "community",
       "tags": ["browser", "automation", "playwright", "login", "testing"],

@@ -22,12 +22,12 @@ function getMerged() {
     // Support both new format (docs/skills) and old format (entries)
     if (registry.docs) {
       for (const doc of registry.docs) {
-        allDocs.push({ ...doc, id: doc.name, _source: source.name, _sourceObj: source });
+        allDocs.push({ ...doc, id: doc.id || doc.name, _source: source.name, _sourceObj: source });
       }
     }
     if (registry.skills) {
       for (const skill of registry.skills) {
-        allSkills.push({ ...skill, id: skill.name, _source: source.name, _sourceObj: source });
+        allSkills.push({ ...skill, id: skill.id || skill.name, _source: source.name, _sourceObj: source });
       }
     }
 
@@ -115,7 +115,7 @@ export function getDisplayId(entry) {
   if (!isMultiSource()) return entry.id;
   const all = applySourceFilter(getAllEntries());
   const matches = getEntriesById(entry.id, all).filter((e) => e._type === entry._type);
-  if (matches.length > 1) return `${entry._source}/${entry.id}`;
+  if (matches.length > 1) return `${entry._source}:${entry.id}`;
   return entry.id;
 }
 
@@ -131,7 +131,7 @@ export function searchEntries(query, filters = {}) {
   const seen = new Set();
   const deduped = [];
   for (const entry of entries) {
-    const key = `${entry._source}/${entry.id}`;
+    const key = `${entry._source}:${entry.id}`;
     if (!seen.has(key)) {
       seen.add(key);
       deduped.push(entry);
@@ -179,15 +179,16 @@ export function getEntry(idOrNamespacedId, type = null) {
   else if (type === 'skill') pool = applySourceFilter(skills);
   else pool = applySourceFilter([...docs, ...skills]);
 
-  // Check for source/id format
-  if (idOrNamespacedId.includes('/')) {
-    const [sourceName, ...rest] = idOrNamespacedId.split('/');
-    const id = rest.join('/');
+  // Check for source:id format (colon separates source from id)
+  if (idOrNamespacedId.includes(':')) {
+    const colonIdx = idOrNamespacedId.indexOf(':');
+    const sourceName = idOrNamespacedId.slice(0, colonIdx);
+    const id = idOrNamespacedId.slice(colonIdx + 1);
     const entry = pool.find((e) => e._source === sourceName && e.id === id);
     return entry ? { entry, ambiguous: false } : { entry: null, ambiguous: false };
   }
 
-  // Bare id
+  // Bare id (may contain slashes like author/name)
   const matches = pool.filter((e) => e.id === idOrNamespacedId);
   if (matches.length === 0) return { entry: null, ambiguous: false };
   if (matches.length === 1) return { entry: matches[0], ambiguous: false };
@@ -196,7 +197,7 @@ export function getEntry(idOrNamespacedId, type = null) {
   return {
     entry: null,
     ambiguous: true,
-    alternatives: matches.map((e) => `${e._source}/${e.id}`),
+    alternatives: matches.map((e) => `${e._source}:${e.id}`),
   };
 }
 
@@ -209,7 +210,7 @@ export function listEntries(filters = {}) {
   const seen = new Set();
   const deduped = [];
   for (const entry of entries) {
-    const key = `${entry._source}/${entry.id}`;
+    const key = `${entry._source}:${entry.id}`;
     if (!seen.has(key)) {
       seen.add(key);
       deduped.push(entry);
