@@ -98,6 +98,7 @@ async function fetchEntries(type, ids, opts, globalOpts) {
         mkdirSync(opts.output, { recursive: true });
         for (const r of results) {
           const outPath = join(opts.output, `${r.id}.md`);
+          mkdirSync(dirname(outPath), { recursive: true });
           writeFileSync(outPath, r.content);
           info(`Written to ${outPath}`);
         }
