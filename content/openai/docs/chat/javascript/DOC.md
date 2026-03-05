@@ -1,10 +1,10 @@
 ---
 name: chat
-description: "GPT-4 and ChatGPT API for text generation, chat completions, streaming, function calling, vision, embeddings, and assistants"
+description: "OpenAI API for text generation, chat completions, streaming, function calling, vision, embeddings, and assistants"
 metadata:
   languages: "javascript"
-  versions: "6.7.0"
-  updated-on: "2025-10-24"
+  versions: "6.25.0"
+  updated-on: "2026-03-05"
   source: maintainer
   tags: "openai,chat,llm,ai"
 ---
@@ -62,6 +62,19 @@ const client = new OpenAI({
   apiKey: 'your-api-key-here'
 });
 ```
+
+## Models (as of March 2026)
+
+Default choices:
+- **General Text Tasks:** `gpt-5` or `gpt-5.2`
+- **Complex Reasoning Tasks:** `gpt-5.2`
+- **Audio Processing:** `gpt-4o-audio-preview` or `gpt-4o-mini-audio-preview`
+- **Vision Tasks:** `gpt-5`
+- **Code-focused / Search-preview:** Use `codex-mini-latest`, `gpt-4o-search-preview`, or `gpt-4o-mini-search-preview`
+
+Current models include: `gpt-5.2`, `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-4.1-nano`, `o4-mini`, `o3`, `o3-mini`, `gpt-4o`, `gpt-4o-mini`, `codex-mini-latest`
+
+Do not use deprecated models: `gpt-4-turbo`, `gpt-4`, `gpt-3.5-turbo`
 
 ## Primary APIs
 
@@ -275,14 +288,14 @@ try {
     messages: [{ role: 'user', content: 'Hello!' }],
   });
 } catch (error) {
-  if (error instanceof OpenAI.APIError) {
-    console.log(error.status);  // HTTP status code
-    console.log(error.name);    // Error name
-    console.log(error.headers); // Response headers
-  } else if (error instanceof OpenAI.RateLimitError) {
+  if (error instanceof OpenAI.RateLimitError) {
     console.log('Rate limit exceeded');
   } else if (error instanceof OpenAI.AuthenticationError) {
     console.log('Invalid API key');
+  } else if (error instanceof OpenAI.APIError) {
+    console.log(error.status);  // HTTP status code
+    console.log(error.name);    // Error name
+    console.log(error.headers); // Response headers
   } else {
     console.log('Unexpected error:', error);
   }

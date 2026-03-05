@@ -72,7 +72,7 @@ The `google-genai` library requires creating a client object for all API calls.
 
 ## Models
 
-- By default, use the following models when using `google-genai`:
+- By default, use the following models as of March 2026:
     - **General Text & Multimodal Tasks:** `gemini-2.5-flash`
     - **Coding and Complex Reasoning Tasks:** `gemini-2.5-pro`
     - **Image Generation Tasks:** `imagen-4.0-fast-generate-001`,

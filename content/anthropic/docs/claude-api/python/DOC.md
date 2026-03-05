@@ -3,8 +3,8 @@ name: claude-api
 description: "Claude AI assistant API for text generation, analysis, conversation, streaming, tool use, vision, and batch processing"
 metadata:
   languages: "python"
-  versions: "0.71.0"
-  updated-on: "2025-10-24"
+  versions: "0.84.0"
+  updated-on: "2026-03-05"
   source: maintainer
   tags: "anthropic,sdk,llm,ai,claude"
 ---
@@ -42,12 +42,17 @@ The `anthropic` library requires creating a client object for all API calls.
 
 ## Models
 
-By default, use the following models when using the Anthropic SDK:
+By default, use the following models as of March 2026:
 
-- **Latest High-Performance Model:** `claude-sonnet-4-20250514` or `claude-4-sonnet-20250514`
-- **Latest Balanced Model:** `claude-3-7-sonnet-latest` or `claude-3-7-sonnet-20250219`
-- **Fast and Efficient Model:** `claude-3-5-haiku-latest` or `claude-3-5-haiku-20241022`
-- **Legacy High-Quality Model:** `claude-3-5-sonnet-latest` or `claude-3-opus-latest`
+- **General Tasks:** `claude-sonnet-4-6-20250827`
+- **High-performance:** `claude-opus-4-6-20250826`
+- **Fast and Efficient:** `claude-haiku-4-5-20251001`
+
+Previous generation models (still supported):
+- `claude-sonnet-4-20250514`, `claude-opus-4-20250514`
+- `claude-3-5-haiku-20241022`
+
+Do not use deprecated models: `claude-3-7-sonnet`, `claude-3-5-sonnet`, `claude-3-opus`
 
 ```python
 # List all available models
@@ -165,12 +170,14 @@ message = client.messages.create(
 )
 ```
 
-### Thinking Configuration
+### Thinking
+
+Configure Claude's extended thinking (reasoning process):
 
 ```python
 message = client.messages.create(
-    model="claude-sonnet-4-20250514",
-    max_tokens=1024,
+    model="claude-sonnet-4-6-20250827",
+    max_tokens=16000,
     messages=[
         {
             "role": "user",
@@ -179,7 +186,7 @@ message = client.messages.create(
     ],
     thinking={
         "type": "enabled",
-        "budget_tokens": 1024
+        "budget_tokens": 10000
     }
 )
 ```

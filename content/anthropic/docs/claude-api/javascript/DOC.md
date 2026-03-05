@@ -3,8 +3,8 @@ name: claude-api
 description: "Claude AI assistant API for text generation, analysis, conversation, streaming, tool use, vision, and batch processing"
 metadata:
   languages: "javascript"
-  versions: "0.67.0"
-  updated-on: "2025-10-24"
+  versions: "0.78.0"
+  updated-on: "2026-03-05"
   source: maintainer
   tags: "anthropic,sdk,llm,ai,claude"
 ---
@@ -57,12 +57,16 @@ const client = new Anthropic({});
 
 ## Models
 
-- By default, use the following models when using `@anthropic-ai/sdk`:
-  - **General Tasks:** `claude-sonnet-4-20250514`
-  - **Legacy Model (if needed):** `claude-3-7-sonnet-latest`
+- By default, use the following models as of March 2026:
+  - **General Tasks:** `claude-sonnet-4-6-20250827`
+  - **High-performance:** `claude-opus-4-6-20250826`
+  - **Fast and Efficient:** `claude-haiku-4-5-20251001`
 
-- Advanced models available:
-  - **High-performance:** `claude-opus-4-20250514`
+- Previous generation models (still supported):
+  - `claude-sonnet-4-20250514`, `claude-opus-4-20250514`
+  - `claude-3-5-haiku-20241022`
+
+- Do not use deprecated models: `claude-3-7-sonnet`, `claude-3-5-sonnet`, `claude-3-opus`
 
 ## Basic Inference (Text Generation)
 
@@ -314,16 +318,16 @@ const response = await client.messages.create({
 });
 ```
 
-### Thinking (Beta Feature)
+### Thinking
 
-Configure Claude's reasoning process:
+Configure Claude's extended thinking (reasoning process):
 
 ```javascript
 const response = await client.messages.create({
-  model: 'claude-sonnet-4-20250514',
-  max_tokens: 1024,
+  model: 'claude-sonnet-4-6-20250827',
+  max_tokens: 16000,
   messages: [{ role: 'user', content: 'Solve this complex problem...' }],
-  thinking: { budget_tokens: 1024, type: 'enabled' },
+  thinking: { type: 'enabled', budget_tokens: 10000 },
 });
 ```
 
